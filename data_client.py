@@ -52,7 +52,7 @@ def echo_client():
                     "encoding": "utf-8",
                     "message": "message"
                     }
-            msg = str(auth)
+            msg = json.dumps(auth)
 
             sock.send(msg.encode(ENCODING))
             data = sock.recv(1024).decode(ENCODING)
