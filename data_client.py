@@ -46,7 +46,7 @@ def echo_client():
             # if msg == 'exit':
             #     break
             # если я верно поняла то мы просто пилим сюда готовое сообщение
-            auth = {"action": "msg",
+            auth = {"action": "authenticate",
                     "time": "123",
                     "from": "account_name",
                     "encoding": "utf-8",
@@ -56,7 +56,12 @@ def echo_client():
 
             sock.send(msg.encode(ENCODING))
             data = sock.recv(1024).decode(ENCODING)
-            logger.info('Ответ:', data)
+            logger.info(f'Ответ {data}')
+            # data2 = sock.recv(1024).decode(ENCODING)
+            # logger.info(f'Ответ {data2}')
+
+
+
 
 
 if __name__ == '__main__':

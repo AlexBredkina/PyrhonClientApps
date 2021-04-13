@@ -50,11 +50,14 @@ def read_requests(r_clients, all_clients):
         try:
             data = sock.recv(1024).decode('utf-8')
             responses[sock] = data
+
         except:
-            logger.info('Клиент {} {} отключился'.format(sock.fileno(), sock.getpeername()))
+            logger.info(f'Клиент {sock.fileno()} {sock.getpeername()} отключился')
             all_clients.remove(sock)
 
+
     return responses
+
 
 
 def write_responses(requests, w_clients, all_clients):
@@ -66,7 +69,15 @@ def write_responses(requests, w_clients, all_clients):
             resp = requests[sock].encode(ENCODING)
             # Подготовить и отправить ответ сервера
             sock.send(resp.upper())
-            # Эхо-ответ сделаем чуть непохожим на оригинал
+            print(requests[sock])
+            # if "action" in requests[sock] and requests[sock]["action"] == "authenticate":
+            #
+            #     msg = {
+            #         "response": 200,
+            #         "alert": "Необязательное сообщение/уведомление"
+            #                     }
+            #     msg = json.dumps(msg)
+            #     sock.send(msg.encode(ENCODING))
 
         except:
 
