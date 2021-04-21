@@ -50,6 +50,14 @@ def read_requests(r_clients, all_clients):
         try:
             data = sock.recv(1024).decode('utf-8')
             responses[sock] = data
+            mess = json.loads(data)
+            if "action" in mess and mess["action"] == "authenticate":
+                msg = {
+                    "response": 200,
+                    "alert": "Необязательное сообщение/уведомление"
+                                }
+                msg = json.dumps(msg)
+                sock.send(msg.encode(ENCODING))
 
         except:
             logger.info(f'Клиент {sock.fileno()} {sock.getpeername()} отключился')
@@ -67,9 +75,12 @@ def write_responses(requests, w_clients, all_clients):
     for sock in w_clients:
         try:
             resp = requests[sock].encode(ENCODING)
+            logger.info(requests[sock])
             # Подготовить и отправить ответ сервера
-            sock.send(resp.upper())
-            print(requests[sock])
+            for client in w_clients:
+                if client != sock:
+
+                    sock.send(resp.upper())
             # if "action" in requests[sock] and requests[sock]["action"] == "authenticate":
             #
             #     msg = {
